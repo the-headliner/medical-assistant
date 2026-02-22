@@ -1,10 +1,11 @@
 from fastapi import APIRouter
 from app.models.symptom_model import SymptomRequest, PredictionResponse
 from app.services.prediction_service import predict_condition
+from app.services.prediction_service import predict_disease
 
 router = APIRouter()
 
 @router.post("/predict", response_model=PredictionResponse)
 def predict(request: SymptomRequest):
-    result = predict_condition(request.symptoms)
-    return result
+    prediction = predict_disease(symptom.dict())
+    return prediction

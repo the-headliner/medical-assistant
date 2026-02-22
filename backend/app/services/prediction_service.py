@@ -1,22 +1,27 @@
-def predict_condition(symptoms: list[str]) -> dict:
-    """
-    Temporary rule-based logic.
-    Later this will be replaced by ML model.
-    """
+import joblib
+import os
+import pandas as pd
 
-    if "fever" in symptoms and "cough" in symptoms:
-        return {
-            "predicted_condition": "Flu",
-            "confidence": 0.85
-        }
+# Load model and features once (on startup)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+MODEL_PATH = os.path.join(BASE_DIR, "ml", "model.pkl")
+FEATURES_PATH = os.path.join(BASE_DIR, "ml", "features.pkl")
 
-    if "headache" in symptoms:
-        return {
-            "predicted_condition": "Migraine",
-            "confidence": 0.75
-        }
+model = joblib.load(MODEL_PATH)
+feature_columns = joblib.load(FEATURES_PATH)
 
-    return {
-        "predicted_condition": "Unknown",
-        "confidence": 0.50
-    }
+
+def predict_disease(symptom_data: dict):
+    # Create ordered input list
+    input_data = []
+
+    for feature in feature_columns:
+        input_data.append(symptom_data.get(feature, 0))
+
+    # Convert to DataFrame
+    input_df = pd.DataFrame([input_data], columns=feature_columns)
+
+    # Predict
+    prediction = model.predict(input_df)[0]
+
+    return prediction
