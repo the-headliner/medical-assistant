@@ -1,9 +1,13 @@
 from pydantic import BaseModel
-from typing import List
+
 
 class SymptomRequest(BaseModel):
-    symptoms: List[str]
+    fever: int
+    cough: int
+    headache: int
+    nausea: int
+    fatigue: int
+
 
 class PredictionResponse(BaseModel):
-    predicted_condition: str
-    confidence: float
+    disease: str
