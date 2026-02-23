@@ -10,3 +10,5 @@ def predict(symptom: SymptomRequest):
     prediction = predict_disease(symptom.model_dump())
 
     return PredictionResponse(disease=prediction)
+
+

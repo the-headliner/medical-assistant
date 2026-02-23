@@ -14,4 +14,4 @@ typing_extensions==4.15.0
 uvicorn==0.41.0
 joblib
 pandas
-scikit-learn
+scikit-learn==1.8.0
